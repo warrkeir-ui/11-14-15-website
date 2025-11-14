@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakuna Matatah Preschool & Childcare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Jungle Theme */
+        :root {
+            --jungle-green-dark: #2a402b;
+            --jungle-green-light: #6fbf73; /* Brighter */
+            --jungle-brown: #6b4f3b;
+            --jungle-tan: #fffbef; /* Lighter, creamier */
+            --jungle-yellow: #fdd835; /* Brighter */
+            --jungle-sky: #89d9f0; /* Brighter */
+            --jungle-red: #f45d5d; /* Brighter */
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--jungle-tan);
+            color: var(--jungle-brown);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%235a823f' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Custom Tailwind Colors */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'jungle-green-dark': 'var(--jungle-green-dark)',
+                        'jungle-green-light': 'var(--jungle-green-light)',
+                        'jungle-brown': 'var(--jungle-brown)',
+                        'jungle-tan': 'var(--jungle-tan)',
+                        'jungle-yellow': 'var(--jungle-yellow)',
+                        'jungle-sky': 'var(--jungle-sky)',
+                        'jungle-red': 'var(--jungle-red)',
+                    }
+                }
+            }
+        }
+
+        /* Page transition styles */
+        .page-content {
+            display: none; /* Hidden by default */
+        }
+        .page-content.active {
+            display: block; /* Shown when active */
+        }
+
+        /* Active Nav Link */
+        .nav-link.active {
+            color: var(--jungle-yellow);
+            font-weight: 700;
+        }
+        
+        /* Dropdown */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Section header with leaf */
+        .section-header::after {
+            content: ' 🌿';
+            font-size: 1.5em;
+            display: inline-block;
+            animation: swing-leaf 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes swing-leaf {
+            0% { transform: rotate(10deg); }
+            100% { transform: rotate(-15deg); }
+        }
+
+        /* Collapsible curriculum */
+        details summary {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background-color: #fefcf8;
+            border: 1px solid var(--jungle-sky);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        details summary:hover {
+            background-color: var(--jungle-tan);
+        }
+        details[open] summary {
+            background-color: var(--jungle-green-light);
+            color: var(--jungle-green-dark); /* CHANGED: from white to dark */
+            font-weight: 700; /* ADDED: for emphasis */
+        }
+        details div {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            background-color: #ffffff;
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            background-color: white;
+            border-left: 5px solid var(--jungle-yellow);
+            position: relative;
+            padding-top: 2rem; /* space for quote */
+        }
+        
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 4rem;
+            color: var(--jungle-yellow);
+            opacity: 0.3;
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1;
+        }
+
+
+        /* Button animation */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(253, 216, 53, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(253, 216, 53, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(253, 216, 53, 0);
+            }
+        }
+
+        /* NEW: Animate logo on hover */
+        header .nav-link[data-page="page-home"] {
+            transition: transform 0.3s ease;
+        }
+        header .nav-link[data-page="page-home"]:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        /* NEW: Animate nav links on hover */
+        nav.hidden .nav-link:not([data-page="page-home"]), .dropdown > button {
+            transition: transform 0.2s ease-in-out;
+        }
+        nav.hidden .nav-link:not([data-page="page-home"]):hover, .dropdown > button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* NEW: Add hover effect to gallery images */
+        #page-gallery img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #page-gallery img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* NEW: More colorful program cards */
+        .program-card-infant { border-top: 5px solid var(--jungle-sky); }
+        .program-card-toddler { border-top: 5px solid var(--jungle-yellow); }
+        .program-card-preschool { border-top: 5px solid var(--jungle-red); }
+        .program-card-aftercare { border-top: 5px solid var(--jungle-green-light); } /* ADDED */
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-jungle-green-light text-jungle-green-dark sticky top-0 z-50 shadow-lg"> <!-- CHANGED: text-white to text-jungle-green-dark -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="nav-link text-2xl font-extrabold flex items-center text-jungle-brown" data-page="page-home"> <!-- ADDED: text-jungle-brown -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-jungle-yellow" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 001.414 1.414L10 10.414l.293.293a1 1 0 001.414-1.414l-1-1z" clip-rule="evenodd" />
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 11-2 0 1 1 0 012 0zm0 4a1 1 0 11-2 0 1 1 0 012 0zm4-4a1 1 0 11-2 0 1 1 0 012 0zm0 4a1 1 0 11-2 0 1 1 0 012 0z" fill="var(--jungle-brown)" opacity="0.3"/> <!-- CHANGED: fill="#FFFFFF" to var(--jungle-brown) -->
+                    </svg>
+                    Hakuna Matatah
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-home">Home</a> <!-- CHANGED: hover:bg-jungle-green-dark to hover:text-jungle-red -->
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-director">Meet the Director</a> <!-- CHANGED: hover -->
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-staff">Our Staff</a> <!-- CHANGED: hover -->
+                    
+                    <!-- Classrooms Dropdown -->
+                    <div class="relative dropdown">
+                        <button class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red flex items-center"> <!-- CHANGED: hover -->
+                            Classrooms
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu absolute hidden bg-white text-jungle-brown rounded-md shadow-lg py-1 w-48 mt-1">
+                            <a href="#" class="nav-link block px-4 py-2 text-sm hover:bg-jungle-tan" data-page="page-class-infant">Infant (Simba)</a>
+                            <a href="#" class="nav-link block px-4 py-2 text-sm hover:bg-jungle-tan" data-page="page-class-toddler">Toddler (Timon)</a>
+                            <a href="#" class="nav-link block px-4 py-2 text-sm hover:bg-jungle-tan" data-page="page-class-preschool">Preschool (Pumba)</a>
+                            <a href="#" class="nav-link block px-4 py-2 text-sm hover:bg-jungle-tan" data-page="page-class-aftercare">After Care (Zazu)</a> <!-- ADDED -->
+                        </div>
+                    </div>
+
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-enrollment">Enrollment</a> <!-- CHANGED: hover -->
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-gallery">Gallery & Calendar</a> <!-- CHANGED: hover -->
+                    <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-jungle-red" data-page="page-contact">Contact</a> <!-- CHANGED: hover -->
+                    
+                    <button class="book-tour-btn bg-jungle-yellow text-jungle-brown font-bold py-2 px-4 rounded-full transition-transform hover:scale-105 btn-pulse">
+                        Book a Tour
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-jungle-green-dark hover:bg-jungle-green-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-jungle-yellow"> <!-- CHANGED: text-white to text-jungle-green-dark -->
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="menu-icon-open" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RE-ADDED: Mobile Menu, hidden by default -->
+        <div id="mobile-menu" class="hidden md:hidden bg-jungle-green-light text-jungle-green-dark space-y-1 px-2 pt-2 pb-3 sm:px-3">
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-home">Home</a>
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-director">Meet the Director</a>
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-staff">Our Staff</a>
+            
+            <div class="px-3 py-2">
+                <span class="font-medium text-jungle-green-dark opacity-75">Classrooms</span>
+                <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium ml-4" data-page="page-class-infant">Infant (Simba)</a>
+                <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium ml-4" data-page="page-class-toddler">Toddler (Timon)</a>
+                <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium ml-4" data-page="page-class-preschool">Preschool (Pumba)</a>
+                <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium ml-4" data-page="page-class-aftercare">After Care (Zazu)</a>
+            </div>
+
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-enrollment">Enrollment</a>
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-gallery">Gallery & Calendar</a>
+            <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-page="page-contact">Contact</a>
+            
+            <button class="book-tour-btn w-full bg-jungle-yellow text-jungle-brown font-bold py-2 px-4 rounded-full transition-transform hover:scale-105 btn-pulse mt-2">
+                Book a Tour
+            </button>
+        </div>
+    </header>
+
+    <!-- RE-ADDED: Main Content Wrapper -->
+    <main>
+
+        <!-- RE-ADDED: Home Page -->
+        <div id="page-home" class="page-content">
+            <!-- Hero Section -->
+            <section class="bg-jungle-sky text-jungle-green-dark py-20 px-4 text-center"> <!-- CHANGED: text-white to text-jungle-green-dark -->
+                <h1 class="text-5xl font-extrabold mb-4">No Worries, Just Play!</h1>
+                <p class="text-2xl mb-8">High-Quality Care & Learning for Your Little One</p>
+                <button class="book-tour-btn bg-jungle-yellow text-jungle-brown font-bold py-3 px-6 rounded-full text-lg transition-transform hover:scale-105 btn-pulse">
+                    Schedule Your Tour Today!
+                </button>
+            </section>
+
+            <!-- Programs Overview -->
+            <section class="py-16">
+                <div class="container mx-auto px-6 lg:px-8">
+                    <h2 class="text-4xl font-extrabold text-center mb-12 text-jungle-green-dark section-header">Our Programs</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Infant -->
+                        <div class="program-card-infant bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-jungle-red">Infant (Simba)</h3>
+                                <p class="text-lg font-semibold text-jungle-sky mb-2">6 weeks - 1.5 yrs</p>
+                                <p>A nurturing environment for our youngest learners, focusing on sensory play and building trust.</p>
+                            </div>
+                        </div>
+                        <!-- Toddler -->
+                        <div class="program-card-toddler bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-jungle-red">Toddler (Timon)</h3>
+                                <p class="text-lg font-semibold text-jungle-yellow mb-2">1.5 yrs - 2.5 yrs</p>
+                                <p>Encouraging curiosity and independence through guided play, music, and art.</p>
+                            </div>
+                        </div>
+                        <!-- Preschool -->
+                        <div class="program-card-preschool bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-jungle-red">Preschool (Pumba)</h3>
+                                <p class="text-lg font-semibold text-jungle-red mb-2">3 yrs - 5 yrs</p>
+                                <p>Kindergarten-readiness curriculum with a focus on literacy, math, and social skills.</p>
+                            </div>
+                        </div>
+                        <!-- After Care -->
+                        <div class="program-card-aftercare bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                            <div class="p-6">
+                                <h3 class="text-2xl font-bold text-jungle-red">After Care (Zazu)</h3>
+                                <p class="text-lg font-semibold text-jungle-green-light mb-2">School Age</p>
+                                <p>A fun, safe space for school-age kids with homework help, games, and activities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Us -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-extrabold text-jungle-green-dark mb-6 section-header">Welcome to Our Jungle!</h2>
+                        <div class="space-y-4 text-lg">
+                            <p><strong class="text-jungle-red">Since 2015,</strong> Hakuna Matatah has been a place where learning and care meet. Our owner, Stefanie Boyd, brings over 20 years of childcare experience, holding both herself and her staff to the highest standards.</p>
+                            <h3 class="text-xl font-bold text-jungle-green-dark pt-2">Our Vision</h3>
+                            <p>To provide a high-quality program in a safe, nurturing environment that supports all facets of a child's development—physical, social, emotional, language, and cognitive—using unique, individual paths for each child.</p>
+                            <h3 class="text-xl font-bold text-jungle-green-dark pt-2">Our Mission</h3>
+                            <p>We believe in the uniqueness of each child. Our mission is to provide a safe, developmentally appropriate learning environment that fosters a child’s natural desire to explore, discover, create, and become a lifelong learner.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="School.jpg" alt="Hakuna Matatah Preschool building" class="rounded-lg shadow-xl w-full" onerror="this.src='https://placehold.co/600x400/a6d9ee/6b4f3b?text=Our+School'; this.onerror=null;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="py-16 bg-jungle-sky"> <!-- CHANGED: from bg-jungle-green-dark text-white -->
+                <div class="container mx-auto px-6 lg:px-8">
+                    <h2 class="text-4xl font-extrabold text-center mb-12 text-jungle-green-dark section-header">What Our Parents Say</h2> <!-- CHANGED: text-jungle-yellow to text-jungle-green-dark -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="testimonial-card p-6 rounded-lg shadow-lg">
+                            <p class="text-lg italic mb-4 text-jungle-brown">"Amazing school, my kids love it there."</p>
+                            <p class="font-bold text-jungle-red">- Pride Family</p> <!-- CHANGED: text-jungle-green-light to text-jungle-red -->
+                        </div>
+                        <div class="testimonial-card p-6 rounded-lg shadow-lg">
+                            <p class="text-lg italic mb-4 text-jungle-brown">"Kind to parents and children"</p>
+                            <p class="font-bold text-jungle-red">- Pride Family</p> <!-- CHANGED: text-jungle-green-light to text-jungle-red -->
+                        </div>
+                        <div class="testimonial-card p-6 rounded-lg shadow-lg">
+                            <p class="text-lg italic mb-4 text-jungle-brown">"The teachers are friendly and work with my children on personal goals that I want to set or implement as a parent. The teachers truly have a heart for the children."</p>
+                            <p class="font-bold text-jungle-red">- Pride Family</p> <!-- CHANGED: text-jungle-green-light to text-jungle-red -->
+                        </div>
+                        <div class="testimonial-card p-6 rounded-lg shadow-lg">
+                            <p class="text-lg italic mb-4 text-jungle-brown">"My child has been going there since birth. She's now 6 years old, and she absolutely loves it there. The aftercare helps with her homework. The staff is lovely, and I always recommend this center to anyone looking for a place that feels like home."</p>
+                            <p class="font-bold text-jungle-red">- Pride Family</p> <!-- CHANGED: text-jungle-green-light to text-jungle-red -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RE-ADDED: Meet the Director Page -->
+        <div id="page-director" class="page-content">
+            <div class="bg-white py-16">
+                <div class="container mx-auto px-6 lg:px-8">
+                    <div class="grid md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-1">
+                            <img src="Stefanie.jpg" alt="Stefanie Boyd, Director" class="rounded-lg shadow-lg w-full" onerror="this.src='https://placehold.co/400x500/5a823f/f3e9d8?text=Stefanie+Boyd'; this.onerror=null;">
+                        </div>
+                        <div class="md:col-span-2">
+                            <h1 class="text-4xl font-extrabold text-jungle-green-dark mb-4 section-header">Meet Our Director</h1>
+                            <h2 class="text-3xl font-bold text-jungle-red mb-6">Stefanie Boyd</h2>
+                            <div class="space-y-4 text-lg">
+                                <p>Stefanie Boyd is the owner and director of Hakuna Matatah Preschool and Childcare Center. With over 20 years of dedicated experience in childcare, Stefanie has a deep passion for early childhood education and development.</p>
+                                <p>She founded Hakuna Matatah in 2015 with a clear mission: to create a safe, nurturing, and high-quality learning environment where every child is valued for their uniqueness. Stefanie holds her staff and herself to the highest standards, ensuring that every child receives the best possible care and support.</p>
+                                <p>Her goal is to foster a child's natural desire to explore, discover, and create, helping to build the future leaders of tomorrow through fun, enriching activities. Stefanie is certified with her CDA and is also trained in CPR.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff Page -->
+        <div id="page-staff" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-green-dark text-center mb-12 section-header">Meet Our Amazing Team</h1>
+                
+                <!-- Staff Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Stefanie Boyd -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                        <img src="Stefanie.jpg" alt="Stefanie Boyd" class="w-full h-80 object-cover" onerror="this.src='https://placehold.co/400x500/5a823f/f3e9d8?text=Stefanie'; this.onerror=null;">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-jungle-red">Stefanie Boyd</h3>
+                            <p class="text-lg font-semibold text-jungle-green-light">Owner / Director</p>
+                            <p class="mt-2">Over 20 years of experience, CDA, CPR</p>
+                        </div>
+                    </div>
+                    <!-- Kennedy Warr -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                        <img src="Kennedy.jpg" alt="Kennedy Warr" class="w-full h-80 object-cover" onerror="this.src='https://placehold.co/400x500/a6d9ee/6b4f3b?text=Kennedy'; this.onerror=null;">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-jungle-red">Kennedy Warr</h3>
+                            <p class="text-lg font-semibold text-jungle-green-light">Infant Room Lead Teacher</p>
+                            <p class="mt-2">4 years of experience, working on Associate's in Childcare, CPR</p>
+                        </div>
+                    </div>
+                    <!-- Kathy Bailey -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                        <img src="Kathy.jpg" alt="Kathy Bailey" class="w-full h-80 object-cover" onerror="this.src='https://placehold.co/400x500/fccb06/6b4f3b?text=Kathy'; this.onerror=null;">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-jungle-red">Kathy Bailey</h3>
+                            <p class="text-lg font-semibold text-jungle-green-light">Toddler Room Lead Teacher</p>
+                            <p class="mt-2">Over 10 years of experience, CPR</p>
+                        </div>
+                    </div>
+                    <!-- Heaven Harris -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                        <img src="Heaven.jpg" alt="Heaven Harris" class="w-full h-80 object-cover" onerror="this.src='https://placehold.co/400x500/e55c3d/f3e9d8?text=Heaven'; this.onerror=null;">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-jungle-red">Heaven Harris</h3>
+                            <p class="text-lg font-semibold text-jungle-green-light">Teacher</p>
+                            <p class="mt-2">4 years of experience, CPR, working on CDA</p>
+                        </div>
+                    </div>
+                    <!-- Keir Warr -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden text-center transition-transform hover:scale-105">
+                        <img src="Keir.jpg" alt="Keir Warr" class="w-full h-80 object-cover" onerror="this.src='https://placehold.co/400x500/8B4513/f3e9d8?text=Keir'; this.onerror=null;">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-jungle-red">Keir Warr</h3>
+                            <p class="text-lg font-semibold text-jungle-green-light">Teacher</p>
+                            <p class="mt-2">5 years of experience, CDA, CPR, finishing Associate's in Childcare (May 2026)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qualifications Section -->
+                <div class="mt-16 bg-white p-8 rounded-lg shadow-xl">
+                    <h2 class="text-3xl font-extrabold text-jungle-green-dark text-center mb-8 section-header">Our Qualifications</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div class="bg-jungle-tan p-4 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-jungle-red mb-2">Licensed & Certified</h3>
+                            <p>All staff meet or exceed Michigan licensing requirements and training hours.</p>
+                        </div>
+                        <div class="bg-jungle-tan p-4 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-jungle-red mb-2">Background Checked</h3>
+                            <p>Comprehensive background screenings are completed for every team member.</p>
+                        </div>
+                        <div class="bg-jungle-tan p-4 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-jungle-red mb-2">CPR & First Aid</h3>
+                            <p>Staff maintain current CPR, First Aid, and emergency preparedness training.</p>
+                        </div>
+                        <div class="bg-jungle-tan p-4 rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold text-jungle-red mb-2">Ongoing Training</h3>
+                            <p>We participate in regular professional development on child development and best practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enrollment Page -->
+        <div id="page-enrollment" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-green-dark text-center mb-12 section-header">Enrollment & Tuition</h1>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Process & Packet -->
+                    <div class="lg:col-span-1 space-y-8">
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h2 class="text-2xl font-bold text-jungle-red mb-4">Enrollment Process</h2>
+                            <ol class="list-decimal list-inside space-y-2 text-lg">
+                                <li><strong>Schedule a Tour:</strong> We'd love to meet you!</li>
+                                <li><strong>Review Packet:</strong> Download and fill out our enrollment packet.</li>
+                                <li><strong>Sign Contract:</strong> Complete the parent contract.</li>
+                                <li><strong>Welcome!</strong> Start your first day.</li>
+                            </ol>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                            <h2 class="text-2xl font-bold text-jungle-red mb-4">Get Started</h2>
+                            <p class="mb-4">Download our complete enrollment packet to get started.</p>
+                            <a href="Hakuna-Matatah-Enrollment-Packet (1).pdf" download class="inline-block bg-jungle-yellow text-jungle-brown font-bold py-3 px-6 rounded-full text-lg transition-transform hover:scale-105 btn-pulse">
+                                Download Enrollment Packet (PDF)
+                            </a>
+                            <p class="text-sm mt-4">Sign your contract after the tour and we'll waive the $60.00 registration fee!</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Fee Schedule -->
+                    <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-3xl font-bold text-jungle-red mb-6">Tuition & Fee Schedule</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">Weekly Tuition Rates</h3>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>Infants (1.5 years & under): <span class="font-bold">$275.00</span> / week</li>
+                                    <li>Toddlers (2.5 years & under): <span class="font-bold">$225.00</span> / week</li>
+                                    <li>Preschool (3 years & older): <span class="font-bold">$200.00</span> / week</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">Drop-In Rates (Per 8-Hour Day)</h3>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>Infants: <span class="font-bold">$75.00</span> / day</li>
+                                    <li>Preschoolers (3-12 years): <span class="font-bold">$60.00</span> / day</li>
+                                    <li class="text-sm">Please call ahead for availability. Drop-in schedules do not hold a daily spot.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">Payment Information</h3>
+                                <p>Tuition payments are due on Mondays. Payments are accepted via cash, debit card, and checks.</p>
+                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                    <li><strong>Registration Fee:</strong> $60.00 (waived if contract is signed after tour)</li>
+                                    <li><strong>Late Fee (Tuesday):</strong> $35.00</li>
+                                    <li><strong>Late Fee (Wednesday):</strong> Additional $50.00</li>
+                                    <li><strong>Returned Check (NSF) Fee:</strong> $35.00</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">Hours of Operation</h3>
+                                <p>Our standard hours are 5:00 AM to 6:00 PM. Extended hours are available; please inquire for rates.</p>
+                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                    <li><strong>Late Pick-Up Fee:</strong> $5.00 per minute after your contracted time. Please be on time.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">DHS Recipients</h3>
+                                <p>Parents receiving benefits from DHS will be responsible for copays to cover the tuition agreements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery & Calendar Page -->
+        <div id="page-gallery" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-green-dark text-center mb-12 section-header">Gallery & School Calendar</h1>
+
+                <!-- Photo Gallery -->
+                <div class="mb-16">
+                    <h2 class="text-3xl font-bold text-jungle-red text-center mb-8">Photo Gallery</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <img src="aquarium 1.jpg" alt="Child looking at aquarium" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/a6d9ee/6b4f3b?text=Fun+Times'; this.onerror=null;">
+                        <img src="eric robot.jpg" alt="Child playing with robot" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/fccb06/6b4f3b?text=Fun+Times'; this.onerror=null;">
+                        <img src="Lunch.jpg" alt="Children eating lunch" class="rounded-lg shadow-md" onerror="this.src='https.placehold.co/300x300/e55c3d/f3e9d8?text=Fun+Times'; this.onerror=null;">
+                        <img src="magnet tiles.jpg" alt="Child playing with magnet tiles" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/5a823f/f3e9d8?text=Fun+Times'; this.onerror=null;">
+                        <img src="micah puzzle.jpg" alt="Child doing a puzzle" class="rounded-lg shadow-md" onerror="this.src='https.placehold.co/300x300/8B4513/f3e9d8?text=Fun+Times'; this.onerror=null;">
+                        <img src="painting.jpg" alt="Child painting" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/a6d9ee/6b4f3b?text=Fun+Times'; this.onerror=null;">
+                        <img src="legos.jpg" alt="Child playing with legos" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/fccb06/6b4f3b?text=Fun+Times'; this.onerror=null;">
+                        <img src="ridings.jpg" alt="Child on a ride-on toy" class="rounded-lg shadow-md" onerror="this.src='https://placehold.co/300x300/e55c3d/f3e9d8?text=Fun+Times'; this.onerror=null;">
+                        <img src="math.jpg" alt="Child learning math" class="rounded-lg shadow-md" onerror="this.src='https.placehold.co/300x300/5a823f/f3e9d8?text=Fun+Times'; this.onerror=null;">
+                    </div>
+                </div>
+
+                <!-- School Calendar -->
+                <div>
+                    <h2 class="text-3xl font-bold text-jungle-red text-center mb-8">School Calendar 2025-2026</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">August 2025</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Aug 20: Parent Meeting</li>
+                                    <li>Aug 25 - Sep 1: FALL RESET (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">September 2025</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Sep 2: WELCOME BACK!</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">November 2025</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Nov 27-28: THANKSGIVING BREAK (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">December 2025</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Dec 23: Last Day</li>
+                                    <li>Dec 25 - Jan 3: WINTER BREAK (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">January 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Jan 1-2: New Year's (Closed)</li>
+                                    <li>Jan 19: MLK DAY (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">April 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Apr 3: GOOD FRIDAY (Closed)</li>
+                                    <li>Apr 6: EASTER MONDAY (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">May 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>May 25: MEMORIAL DAY (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">June 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Jun 15: Summer Session Starts</li>
+                                    <li>Jun 19: JUNETEENTH (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">July 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Jul 3: INDEPENDENCE DAY OBSERVATION (Closed)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-jungle-green-dark mb-2">August 2026</h3>
+                                <ul class="list-disc list-inside">
+                                    <li>Aug 21: Last Day of Summer Session</li>
+                                    <li>Aug 24-31: FALL RESET (Closed)</li>
+                                    <li>Aug 31: WELCOME BACK FALL START</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="page-contact" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-green-dark text-center mb-12 section-header">Contact Us & Schedule a Tour</h1>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Contact Form -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold text-jungle-red mb-4">Send Us a Message</h2>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium">Full Name</label>
+                                <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-jungle-green-light focus:ring-jungle-green-light">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium">Email Address</label>
+                                <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-jungle-green-light focus:ring-jungle-green-light">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-jungle-green-light focus:ring-jungle-green-light">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium">Message</label>
+                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-jungle-green-light focus:ring-jungle-green-light"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full bg-jungle-yellow text-jungle-brown font-bold py-3 px-6 rounded-full text-lg transition-transform hover:scale-105">
+                                    Send Message
+                                </button>
+                            </div>
+                            <p id="form-status" class="text-center mt-4"></p>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info & Map -->
+                    <div class="space-y-8">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <h2 class="text-2xl font-bold text-jungle-red mb-4">Visit Us</h2>
+                            <p class="text-lg font-semibold">Address:</p>
+                            <p class="mb-4">26140 W 7 Mile Rd, Redford, MI 48240</p>
+                            
+                            <p class="text-lg font-semibold">Call Us:</p>
+                            <p class="mb-4">(313) 694-3140</p>
+                            
+                            <p class="text-lg font-semibold">Email Us:</p>
+                            <p>Hakunamatatahchildcare@yahoo.com</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2946.012581622085!2d-83.31034368454198!3d42.40742897918378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824acbfd61f1c7d%3A0x673c660994f7131b!2s26140%20W%207%20Mile%20Rd%2C%20Redford%2C%20MI%2048240!5e0!3m2!1sen!2sus!4v1678888888888!5m2!1sen!2sus" 
+                                width="100%" 
+                                height="350" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infant Classroom Page -->
+        <div id="page-class-infant" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-brown text-center mb-4 section-header">Infant (SIMBA) Classroom</h1>
+                <p class="text-center text-xl text-jungle-red font-semibold mb-12">Ages 6 Months - 1.5 Years</p>
+                
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-jungle-red mb-4">Core Learning Objectives</h2>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>ASL:</strong> Learn 41 basic signs.</li>
+                        <li><strong>Academics:</strong> Introduce colors, shapes, numbers (1-10), and the alphabet.</li>
+                        <li><strong>Social-Emotional:</strong> Develop social skills and kindness through group activities.</li>
+                        <li><strong>Motor Skills:</strong> Improve fine and gross motor skills through play and crafts.</li>
+                        <li><strong>Personal Identity:</strong> Begin to recognize their own name.</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-jungle-red mb-4">Weekly Curriculum</h2>
+                    <p class="mb-4">Our curriculum is designed to introduce new concepts each week through play, songs, and activities. Here is a sample of our year.</p>
+                    <div class="space-y-2">
+                        <details>
+                            <summary>Week 1: All About Me</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Hello", Making new friends, sharing toys.</p>
+                                <p><strong>Circle Time:</strong> Sing "The More We Get Together." Read "Wiggle" by Doreen Cronin.</p>
+                                <p><strong>Activities:</strong> Tummy time, "Simon Says", Fingerpainting, Family photo collage.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 2-4: Colors (Red, Yellow, Blue)</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL signs for "Red", "Yellow", "Blue". Introduce primary colors.</p>
+                                <p><strong>Circle Time:</strong> Read "Red, Red, Red", "Freight Train", "Little Blue Truck".</p>
+                                <p><strong>Activities:</strong> Play with colored balls, sensory bins (red scarves, yellow cornmeal, blue water), gluing pom-poms, painting.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 5-7: Shapes (Circle, Square, Triangle)</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL signs for "Round", "Square", "Triangle". Introduce basic shapes.</p>
+                                <p><strong>Circle Time:</strong> Read "Circle" by Mac Barnett, "Perfect Square" by Michael Hall. Sing "The Wheels on the Bus."</p>
+                                <p><strong>Activities:</strong> Roll a ball, build with boxes, play with shape sorters, stamp with toilet paper rolls.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 8-11: Numbers (One, Two, Three)</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL signs for "One", "Two", "Three". Introduce counting.</p>
+                                <p><strong>Circle Time:</strong> Read "One Duck Stuck", "The Foot Book", "The Three Little Pigs."</p>
+                                <p><strong>Activities:</strong> Jump one time, match pairs of socks, stack three pillows, glue buttons.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 9: Halloween Fun</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Pumpkin", Exploring new textures and costumes.</p>
+                                <p><strong>Circle Time:</strong> Read "The Itsy Bitsy Pumpkin." Sing "Five Little Pumpkins."</p>
+                                <p><strong>Activities:</strong> Decorate a pumpkin with stickers, Halloween sensory bin.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 12: Thanksgiving Thankfulness</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Thank you", Expressing gratitude and kindness.</p>
+                                <p><strong>Circle Time:</strong> Read "Bear Says Thanks" by Karma Wilson.</p>
+                                <p><strong>Activities:</strong> "Wobble like a turkey," Make a handprint turkey.</p>
+                            </div>
+                        </details>
+                        <!-- Add more weeks as needed -->
+                        <details>
+                            <summary>Week 41: Summer Fun & Goodbye</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Goodbye", Saying goodbye to friends and teachers.</p>
+                                <p><strong>Circle Time:</strong> Read "See You Later, Alligator!" Sing "Goodbye, Goodbye" song.</p>
+                                <p><strong>Activities:</strong> Play with water outside, Make a "memory book" with handprints.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toddler Classroom Page -->
+        <div id="page-class-toddler" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-brown text-center mb-4 section-header">Toddler (TIMON) Classroom</h1>
+                <p class="text-center text-xl text-jungle-red font-semibold mb-12">Ages 1.5 - 2.5 Years</p>
+                
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-jungle-red mb-4">Core Learning Objectives</h2>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>ASL:</strong> Learn 41 basic signs.</li>
+                        <li><strong>Academics:</strong> Introduce colors, shapes, numbers (1-10), and the alphabet.</li>
+                        <li><strong>Social-Emotional:</strong> Develop social skills and kindness through group activities.</li>
+                        <li><strong>Motor Skills:</strong> Improve fine and gross motor skills through play and crafts.</li>
+                        <li><strong>Personal Identity:</strong> Begin to recognize their own name.</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-jungle-red mb-4">Weekly Curriculum</h2>
+                    <p class="mb-4">Our curriculum builds on the infant program, encouraging more independent exploration and group play. The weekly themes are shared with the infant room to provide consistency.</p>
+                    <div class="space-y-2">
+                        <details>
+                            <summary>Week 1: All About Me</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Hello", Making new friends, sharing toys.</p>
+                                <p><strong>Circle Time:</strong> Sing "The More We Get Together." Read "Wiggle" by Doreen Cronin.</p>
+                                <p><strong>Activities:</strong> "Simon Says" with body parts, Fingerpainting, Family photo collage.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 2-4: Colors (Red, Yellow, Blue)</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL signs for "Red", "Yellow", "Blue". Introduce primary colors.</p>
+                                <p><strong>Circle Time:</strong> Read "Red, Red, Red", "Freight Train", "Little Blue Truck".</p>
+                                <p><strong>Activities:</strong> Walk to red objects, sensory bins (red scarves, yellow cornmeal, blue water), gluing pom-poms, painting.</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>Week 5-7: Shapes (Circle, Square, Triangle)</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL signs for "Round", "Square", "Triangle". Introduce basic shapes.</p>
+                                <p><strong>Circle Time:</strong> Read "Circle" by Mac Barnett, "Perfect Square" by Michael Hall. Sing "The Wheels on the Bus."</p>
+                                <p><strong>Activities:</strong> Jump in and out of a hula hoop, build with large cardboard boxes, play with shape sorters, make triangle collages.</p>
+                            </div>
+                        </details>
+                        <!-- Add more weeks as needed -->
+                        <details>
+                            <summary>Week 41: Summer Fun & Goodbye</summary>
+                            <div>
+                                <p><strong>Learning Focus:</strong> ASL "Goodbye", Saying goodbye to friends and teachers.</p>
+                                <p><strong>Circle Time:</strong> Read "See You Later, Alligator!" Sing "Goodbye, Goodbye" song.</p>
+                                <p><strong>Activities:</strong> Play with water outside, Make a "memory book" with handprints and pictures.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preschool Classroom Page -->
+        <div id="page-class-preschool" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-brown text-center mb-4 section-header">Preschool (PUMBA) Classroom</h1>
+                <p class="text-center text-xl text-jungle-red font-semibold mb-12">Ages 3 - 5 Years</p>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <div class="bg-white p-6 rounded-lg shadow-lg sticky top-24">
+                            <h2 class="text-2xl font-bold text-jungle-red mb-4">Key Learning Areas</h2>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>Literacy (ABCs, Phonics)</li>
+                                <li>Handwriting</li>
+                                <li>Beginning Reading (Rhyming, Sight Words)</li>
+                                <li>Numeracy (Numbers, Shapes, Colors)</li>
+                                <li>Basic Math (Patterns, Sorting)</li>
+                                <li>Thematic Units</li>
+                                <li>Social-Emotional Development</li>
+                                <li>Safety & Emergency Numbers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold text-jungle-red mb-4">Daily Structure</h2>
+                        <p class="mb-4">Our preschool program is structured to provide a routine that fosters holistic development. Fridays are dedicated to reviewing the week's concepts.</p>
+                        <ul class="list-disc list-inside space-y-2 mb-6">
+                            <li><strong>Morning Circle Time:</strong> Greeting, calendar, weather, and introduction of weekly concepts.</li>
+                            <li><strong>Literacy Focus:</strong> Letter recognition, phonics, handwriting, and reading activities.</li>
+                            <li><strong>Math Focus:</strong> Counting, number recognition, shapes, colors, and basic math concepts.</li>
+                            <li><strong>Thematic Activity:</strong> Hands-on projects, science, art, or dramatic play.</li>
+                            <li><strong>Motor Skills:</strong> Fine motor (playdough, cutting) and Gross motor (indoor/outdoor play).</li>
+                            <li><strong>Story Time:</strong> Read aloud and discussion.</li>
+                        </ul>
+
+                        <h2 class="text-2xl font-bold text-jungle-red mb-4">Yearly Breakdown (Sample)</h2>
+                        <div class="space-y-2">
+                            <details>
+                                <summary>Week 1: All About Me</summary>
+                                <div>
+                                    <p><strong>Theme:</strong> All About Me, Five Senses</p>
+                                    <p><strong>Letter:</strong> A</p>
+                                    <p><strong>Number:</strong> 1</p>
+                                    <p><strong>Shape:</strong> Circle</p>
+                                    <p><strong>Color:</strong> Red</p>
+                                    <p><strong>Activities:</strong> Self-portraits, name recognition, 911 introduction.</p>
+                                </div>
+                            </details>
+                            <details>
+                                <summary>Week 2: Apples & Farm Animals</summary>
+                                <div>
+                                    <p><strong>Theme:</strong> Apples, Animals (Farm Animals)</p>
+                                    <p><strong>Letter:</strong> B</p>
+                                    <p><strong>Number:</strong> 2</p>
+                                    <p><strong>Shape:</strong> Square</p>
+                                    <p><strong>Color:</strong> Blue</p>
+                                    <p><strong>Activities:</strong> Apple tasting, animal sounds, parts of a book review.</p>
+                                </div>
+                            </details>
+                            <details>
+                                <summary>Week 5: Fall & Leaves</summary>
+                                <div>
+                                    <p><strong>Theme:</strong> Fall, Leaves</p>
+                                    <p><strong>Letter:</strong> E</p>
+                                    <p><strong>Number:</strong> 5</p>
+                                    <p><strong>Shape:</strong> Oval</p>
+                                    <p><strong>Color:</strong> Orange</p>
+                                    <p><strong>Activities:</strong> Leaf rubbing art, five senses (smell), simple patterns.</p>
+                                </div>
+                            </details>
+                            <details>
+                                <summary>Week 9: Halloween & Nocturnal Animals</summary>
+                                <div>
+                                    <p><strong>Theme:</strong> Halloween (Friendly), Nocturnal Animals</p>
+                                    <p><strong>Letter:</strong> I</p>
+                                    <p><strong>Number:</strong> 9</p>
+                                    <p><strong>Shape/Color:</strong> Review all</p>
+                                    <p><strong>Activities:</strong> Bat craft, owl sounds, shape/color review games.</p>
+                                </div>
+                            </details>
+                            <!-- Add more weeks as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADDED: After Care Classroom Page -->
+        <div id="page-class-aftercare" class="page-content">
+            <div class="container mx-auto px-6 lg:px-8 py-16">
+                <h1 class="text-4xl font-extrabold text-jungle-brown text-center mb-4 section-header">After Care (ZAZU)</h1>
+                <p class="text-center text-xl text-jungle-red font-semibold mb-12">School Age</p>
+    
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <div class="bg-white p-6 rounded-lg shadow-lg sticky top-24">
+                            <h2 class="text-2xl font-bold text-jungle-red mb-4">Daily Schedule</h2>
+                            <p class="mb-4">Our after-care program provides a structured and supportive environment for school-age children.</p>
+                            <ul class="list-disc list-inside space-y-2 text-jungle-brown">
+                                <li>Arrival & Healthy Snack</li>
+                                <li>Homework Help & Quiet Reading Time</li>
+                                <li>Group Games & Activities</li>
+                                <li>Outdoor/Gross Motor Play</li>
+                                <li>Creative Arts & Crafts</li>
+                                <li>Free Choice Centers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold text-jungle-red mb-4">Program Focus</h2>
+                        <p class="mb-4">The Zazu room is all about providing a safe, fun, and engaging space for children after their school day. We focus on a blend of academic support and recreational fun to help children unwind and grow.</p>
+                        <h3 class="text-xl font-bold text-jungle-green-dark mb-3">Core Objectives:</h3>
+                        <ul class="list-disc list-inside space-y-1 mb-6">
+                            <li><strong>Academic Support:</strong> Dedicated time and assistance for homework and reading.</li>
+                            <li><strong>Social Skills:</strong> Encouraging positive peer interactions through group games and projects.</li>
+                            <li><strong>Creativity:</strong> Daily opportunities for art, building, and imaginative play.</li>
+                            <li><strong>Relaxation:</strong> A comfortable environment to decompress after a structured school day.</li>
+                        </ul>
+                        <div class="bg-jungle-tan p-6 rounded-lg testimonial-card">
+                            <h3 class="text-xl font-bold text-jungle-green-dark mb-3">Supporting Our Families</h3>
+                            <p>We're thrilled to have your child join us in the Zazu room! One of our most popular testimonials mentions our aftercare: <span class="font-semibold italic">"The aftercare helps with her homework."</span> We take that to heart and are proud to offer a program that supports both parents and students. We look forward to a great year of learning and fun!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-jungle-green-dark text-jungle-tan pt-12 pb-8">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-xl font-extrabold text-white mb-3">Hakuna Matatah</h3>
+                    <p class="text-sm leading-relaxed">Providing a safe, nurturing, and high-quality early childhood program that supports and builds development through exploration and play.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-extrabold text-white mb-3">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="nav-link hover:text-jungle-yellow" data-page="page-home">Home</a></li>
+                        <li><a href="#" class="nav-link hover:text-jungle-yellow" data-page="page-staff">Our Staff</a></li>
+                        <li><a href="#" class="nav-link hover:text-jungle-yellow" data-page="page-enrollment">Enrollment</a></li>
+                        <li><a href="#" class="nav-link hover:text-jjungle-yellow" data-page="page-contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-xl font-extrabold text-white mb-3">Get In Touch</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>Address: 26140 W 7 Mile Rd, Redford, MI 48240</li>
+                        <li>Phone: (313) 694-3140</li>
+                        <li>Email: Hakunamatatahchildcare@yahoo.com</li>
+                    </ul>
+                    <!-- Social Icons -->
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-jungle-tan hover:text-jungle-yellow">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-jungle-tan hover:text-jungle-yellow">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 012.757 2.757c.248.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-2.757 2.757c-.636.248-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-2.757-2.757c-.248-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 012.757-2.757c.636-.248 1.363.416 2.427.465C9.53 2.013 9.884 2 12.315 2zM12 7c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.002-9.004a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-jungle-green-light pt-6 text-center text-sm">
+                <p>&copy; 2025 Hakuna Matatah Preschool & Childcare. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+            const bookTourButtons = document.querySelectorAll('.book-tour-btn');
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+
+            // --- Page Navigation Logic ---
+            function showPage(pageId) {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Show the target page
+                const activePage = document.getElementById(pageId);
+                if (activePage) {
+                    activePage.classList.add('active');
+                }
+
+                // Update active link state
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Handle dropdown active state
+                const dropdown = document.querySelector('.dropdown');
+                if (dropdown) { // <-- FIXED: Added check for dropdown
+                    const dropdownButton = dropdown.querySelector('button');
+                    if (dropdownButton) { // <-- FIXED: Added check for button
+                        if (pageId && pageId.startsWith('page-class-')) {
+                            dropdownButton.classList.add('active');
+                        } else {
+                            dropdownButton.classList.remove('active');
+                        }
+                    }
+                }
+
+                // Scroll to top
+                window.scrollTo(0, 0);
+
+                // Close mobile menu
+                if (mobileMenu) { // Add guard for mobile menu
+                    mobileMenu.classList.add('hidden');
+                }
+                if (menuIconOpen && menuIconClose) { // Add guards for icons
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                }
+            }
+
+            // Add click listeners to all nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    // ADDED: Only call showPage if pageId is not undefined
+                    if (pageId) {
+                        showPage(pageId);
+                    }
+                });
+            });
+
+            // Add click listeners to all "Book a Tour" buttons
+            bookTourButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('page-contact');
+                });
+            });
+
+            // Set initial page
+            showPage('page-home');
+
+            // --- Mobile Menu Toggle ---
+            if (menuBtn) { // Add guard for menu button
+                menuBtn.addEventListener('click', () => {
+                    if (mobileMenu && menuIconOpen && menuIconClose) { // Add guards
+                        mobileMenu.classList.toggle('hidden');
+                        menuIconOpen.classList.toggle('hidden');
+                        menuIconClose.classList.toggle('hidden');
+                    }
+                });
+            }
+
+            // --- Contact Form Logic (Mock) ---
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    formStatus.textContent = 'Sending...';
+                    formStatus.style.color = 'var(--jungle-brown)';
+
+                    // Simulate form submission
+                    setTimeout(() => {
+                        formStatus.textContent = 'Thank you! Your message has been sent.';
+                        formStatus.style.color = 'var(--jungle-green-light)';
+                        contactForm.reset();
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
